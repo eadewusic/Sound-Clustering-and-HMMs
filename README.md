@@ -48,6 +48,7 @@ I used **Mel Spectrogram** features for representation, followed by **dimensiona
 | K-Means    | ~0.23            | ~1.63                 | Formed moderate clusters |
 | DBSCAN     | Low / Invalid    | N/A                   | Failed due to density-based assumptions |
 
+**Analysis:**
 - **PCA vs t-SNE**: t-SNE offered better visual insights but was not used for clustering due to non-linearity.
 - **K-Means vs DBSCAN**: K-Means outperformed DBSCAN on this dataset.
 
