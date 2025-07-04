@@ -73,4 +73,4 @@ DBSCAN provided more compact and separable clusters, demonstrating its effective
 
 ## Part 2: Hidden Markov Model (HMM) Capstone Use Case
 
-- Peruse the one-page PDF [here](https://docs.google.com/document/d/1zf7n1qHFO69HmzGurLkfYiLq0aTJZsoUh4fXEHGYejs/edit?usp=sharing).
+- Peruse the one-page PDF [here](https://drive.google.com/drive/folders/1PS7tw9MweZD22TX1H2XogSpWQ9a0mdE8?usp=drive_link).
