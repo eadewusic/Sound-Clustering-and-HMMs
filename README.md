@@ -8,59 +8,62 @@ I used **Mel Spectrogram** features for representation, followed by **dimensiona
 
 ### 1. Data Loading & Feature Extraction
 - Loaded `.wav` files from the `unlabelled_sounds` dataset.
-- Extracted **Mel Spectrogram** features using Librosa and reduced each file’s spectrogram to a 128-length feature vector (mean across time).
+- Extracted **Mel Spectrogram** features using Librosa and reduced each file’s spectrogram to a 128-length feature vector (mean across time), along with other spectral features (ZCR, Spectral Centroid, Rolloff).
 - Created a structured DataFrame containing filenames and features.
 
 ### 2. Preprocessing
 - Standardized the feature set using `StandardScaler` for better clustering performance.
-- Explored raw feature plots using pairplots — clusters were not visually separable in high-dimensional space.
+- Explored raw feature plots using pairplots — clusters were not visually separable in high-dimensional space, highlighting the need for dimensionality reduction.
 
 ### 3. Dimensionality Reduction Techniques
 - Applied **PCA (Principal Component Analysis)**:
-  - Reduced the dataset to 3 principal components.
-  - Preserved global variance structure but did not yield clear cluster separation.
+  - Reduced the dataset to 3 principal components.
+  - Preserved global variance structure but did not yield clear cluster separation visually.
 - Applied **t-SNE (t-Distributed Stochastic Neighbor Embedding)**:
-  - Captured local structure and provided visually clearer separability.
-  - Used for exploratory visual analysis.
+  - Captured local structure and provided visually clearer separability.
+  - Used for exploratory visual analysis due to its effectiveness in revealing hidden cluster structures.
 
 ### 4. Clustering Algorithms
 
 #### K-Means Clustering
-- Used **Elbow Method** and **Silhouette Score** to determine optimal number of clusters (`k = 2`).
-- Performance:
-  - Silhouette Score: ~0.23 (moderate separability)
-  - Davies-Bouldin Index: ~1.63 (average separation)
-  - Inertia: ~29 million (sum of distances to centroids)
+- Used **Elbow Method** and **Silhouette Score** to determine optimal number of clusters. (Note: The notebook used k=3 for final evaluation, not k=2 from the elbow method).
+- Performance (with k=3 from notebook):
+  - Silhouette Score: 0.1647 (lower separability)
+  - Davies-Bouldin Index: 1.9167 (higher, indicating worse separation)
+  - Inertia: 1041413.5147 (sum of squared distances to centroids)
 
 #### DBSCAN Clustering
 - Tuned `eps` and `min_samples` hyperparameters.
-- Most points were labeled as noise (`-1`), and few clusters were formed.
-- DBSCAN struggled due to uniform feature space density post-PCA.
+- Performance:
+  - Silhouette Score: 0.4265 (significantly higher, indicating better separability)
+  - Davies-Bouldin Index: 0.8918 (much lower, indicating better separation)
+  - Formed 9 distinct, higher-quality clusters while also identifying a large portion of the data as noise (`-1`).
 
 ## Evaluation & Comparison
 
 **Metrics:**
 - Silhouette Score
 - Davies-Bouldin Index
+- Inertia (for K-Means)
 
-| Method     | Silhouette Score | Davies-Bouldin Index | Observations |
-|------------|------------------|-----------------------|--------------|
-| K-Means    | ~0.23            | ~1.63                 | Formed moderate clusters |
-| DBSCAN     | Low / Invalid    | N/A                   | Failed due to density-based assumptions |
+| Method | Silhouette Score | Davies-Bouldin Index | Inertia (K-Means only) | Observations |
+|---|---|---|---|---|
+| K-Means | 0.1647 | 1.9167 | 1041413.5147 | Formed spherical clusters; moderate performance |
+| DBSCAN | 0.4265 | 0.8918 | N/A | Formed 9 distinct, higher-quality clusters; identified noise |
 
 **Analysis:**
-- **PCA vs t-SNE**: t-SNE offered better visual insights but was not used for clustering due to non-linearity.
-- **K-Means vs DBSCAN**: K-Means outperformed DBSCAN on this dataset.
+- **PCA vs t-SNE**: t-SNE offered better visual insights by preserving local structures, making it more suitable for exploratory visual analysis compared to PCA which focused on global variance.
+- **K-Means vs DBSCAN**: DBSCAN significantly outperformed K-Means on this dataset, as indicated by its higher Silhouette Score and much lower Davies-Bouldin Index. This suggests DBSCAN better identifies natural, dense groupings.
 
 ## Key Insights
 
-- **Dimensionality reduction is essential** when dealing with high-dimensional feature spaces like audio spectrograms.
-- **K-Means** worked better due to the relatively globular nature of clusters in PCA space.
-- **DBSCAN** is sensitive to density and may fail when clusters are not clearly dense or separated.
+- **Dimensionality reduction is essential** when dealing with high-dimensional feature spaces like audio spectrograms, improving interpretability and potentially clustering quality.
+- **DBSCAN** proved more effective for this dataset, successfully identifying more natural and distinct groupings, and explicitly handling noise.
+- **K-Means**, with its inherent assumption of forming spherical clusters and partitioning all data points, was less effective in discerning the underlying cluster structure for this data, leading to lower quality clusters.
 
 ## Conclusion
 
-K-Means with PCA provided the most compact and separable clusters. DBSCAN struggled with sparse density after PCA. Dimensionality reduction significantly improved clustering performance and interpretability.
+DBSCAN provided more compact and separable clusters, demonstrating its effectiveness for this dataset despite identifying a portion of the data as noise. Dimensionality reduction significantly improved clustering performance and interpretability, with t-SNE offering superior visual insights for cluster separability.
 
 ## Project Structure
 
@@ -68,6 +71,6 @@ K-Means with PCA provided the most compact and separable clusters. DBSCAN strugg
 - `images/`: all visualizations (e.g., PCA/t-SNE clusters)
 - `notebook/`: Full notebook with explanations, visualizations, and modular code
 
-## Part 2: Hidden Markov Model (HMM) Capstone Use Case
+# Part 2: Hidden Markov Model (HMM) Capstone Use Case
 
 - Peruse the one-page PDF [here](https://docs.google.com/document/d/1zf7n1qHFO69HmzGurLkfYiLq0aTJZsoUh4fXEHGYejs/edit?usp=sharing).
