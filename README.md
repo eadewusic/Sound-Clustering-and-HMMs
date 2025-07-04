@@ -13,31 +13,31 @@ I used **Mel Spectrogram** features for representation, followed by **dimensiona
 
 ### 2. Preprocessing
 - Standardized the feature set using `StandardScaler` for better clustering performance.
-- Explored raw feature plots using pairplots — clusters were not visually separable in high-dimensional space, highlighting the need for dimensionality reduction.
+- Explored raw feature plots using pairplots - clusters were not visually separable in high-dimensional space, highlighting the need for dimensionality reduction.
 
 ### 3. Dimensionality Reduction Techniques
 - Applied **PCA (Principal Component Analysis)**:
-  - Reduced the dataset to 3 principal components.
-  - Preserved global variance structure but did not yield clear cluster separation visually.
+  - Reduced the dataset to 3 principal components.
+  - Preserved global variance structure but did not yield clear cluster separation visually.
 - Applied **t-SNE (t-Distributed Stochastic Neighbor Embedding)**:
-  - Captured local structure and provided visually clearer separability.
-  - Used for exploratory visual analysis due to its effectiveness in revealing hidden cluster structures.
+  - Captured local structure and provided visually clearer separability.
+  - Used for exploratory visual analysis due to its effectiveness in revealing hidden cluster structures.
 
 ### 4. Clustering Algorithms
 
 #### K-Means Clustering
-- Used **Elbow Method** and **Silhouette Score** to determine optimal number of clusters. (Note: The notebook used k=3 for final evaluation, not k=2 from the elbow method).
-- Performance (with k=3 from notebook):
-  - Silhouette Score: 0.1647 (lower separability)
-  - Davies-Bouldin Index: 1.9167 (higher, indicating worse separation)
-  - Inertia: 1041413.5147 (sum of squared distances to centroids)
+- Used **Elbow Method** and **Silhouette Score** to determine optimal number of clusters (`k = 3`).
+- Performance:
+  - Silhouette Score: 0.1647 (lower separability)
+  - Davies-Bouldin Index: 1.9167 (higher, indicating worse separation)
+  - Inertia: 1041413.5147 (sum of squared distances to centroids)
 
 #### DBSCAN Clustering
 - Tuned `eps` and `min_samples` hyperparameters.
 - Performance:
-  - Silhouette Score: 0.4265 (significantly higher, indicating better separability)
-  - Davies-Bouldin Index: 0.8918 (much lower, indicating better separation)
-  - Formed 9 distinct, higher-quality clusters while also identifying a large portion of the data as noise (`-1`).
+  - Silhouette Score: 0.4265 (significantly higher, indicating better separability)
+  - Davies-Bouldin Index: 0.8918 (much lower, indicating better separation)
+  - Formed 9 distinct, higher-quality clusters while also identifying a large portion of the data as noise (`-1`).
 
 ## Evaluation & Comparison
 
