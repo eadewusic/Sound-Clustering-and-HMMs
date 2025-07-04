@@ -71,6 +71,6 @@ DBSCAN provided more compact and separable clusters, demonstrating its effective
 - `images/`: all visualizations (e.g., PCA/t-SNE clusters)
 - `notebook/`: Full notebook with explanations, visualizations, and modular code
 
-# Part 2: Hidden Markov Model (HMM) Capstone Use Case
+## Part 2: Hidden Markov Model (HMM) Capstone Use Case
 
 - Peruse the one-page PDF [here](https://docs.google.com/document/d/1zf7n1qHFO69HmzGurLkfYiLq0aTJZsoUh4fXEHGYejs/edit?usp=sharing).
